@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan Trip Itinerary — Dec 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f4f8;
+      padding: 32px 16px;
+      color: #1a202c;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1a202c;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #718096;
+      margin-bottom: 28px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 860px;
+      background: #fff;
+    }
+
+    /* ── Header row (days) ── */
+    thead th {
+      padding: 14px 10px;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    thead th.time-col {
+      background: #f7fafc;
+      color: #a0aec0;
+      width: 90px;
+      border-right: 2px solid #e2e8f0;
+    }
+
+    thead th.day-col {
+      background: #2b6cb0;
+      color: #fff;
+      min-width: 110px;
+    }
+
+    thead th.day-col .date-num  { font-size: 1.5rem; display: block; line-height: 1.1; }
+    thead th.day-col .date-mon  { font-size: 0.7rem; opacity: 0.85; }
+    thead th.day-col .date-dow  { font-size: 0.65rem; opacity: 0.7; margin-top: 2px; display: block; }
+
+    /* Destination sub-header */
+    thead th.dest-col {
+      background: #ebf8ff;
+      color: #2b6cb0;
+      font-size: 0.72rem;
+      padding: 8px 10px;
+      border-bottom: 2px solid #bee3f8;
+      border-top: 1px solid #bee3f8;
+    }
+
+    thead th.dest-col.time-col {
+      background: #f7fafc;
+      color: #a0aec0;
+      border-right: 2px solid #e2e8f0;
+    }
+
+    /* ── Body rows ── */
+    tbody tr:nth-child(odd)  { background: #fff; }
+    tbody tr:nth-child(even) { background: #f7fafc; }
+
+    tbody td {
+      padding: 10px 10px;
+      font-size: 0.8rem;
+      vertical-align: top;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tbody td.time-label {
+      font-weight: 600;
+      font-size: 0.72rem;
+      color: #718096;
+      text-align: right;
+      padding-right: 12px;
+      white-space: nowrap;
+      border-right: 2px solid #e2e8f0;
+      background: #f7fafc !important;
+      vertical-align: middle;
+    }
+
+    /* ── Event cells ── */
+    .event {
+      border-radius: 7px;
+      padding: 7px 9px;
+      margin-bottom: 4px;
+      font-size: 0.76rem;
+      line-height: 1.4;
+    }
+
+    .event:last-child { margin-bottom: 0; }
+
+    .ev-flight   { background: #ebf4ff; border-left: 3px solid #3182ce; color: #1a365d; }
+    .ev-hotel    { background: #f0fff4; border-left: 3px solid #38a169; color: #1c4532; }
+    .ev-ryokan  { background: #fffaf0; border-left: 3px solid #d97706; color: #7b341e; }
+    .ev-travel   { background: #faf5ff; border-left: 3px solid #805ad5; color: #44337a; }
+    .ev-free     { background: #f7fafc; border-left: 3px solid #cbd5e0; color: #4a5568; }
+    .ev-checkout { background: #fff5f5; border-left: 3px solid #e53e3e; color: #742a2a; }
+
+    .ev-label {
+      font-weight: 700;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .ev-time {
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .ev-desc {
+      color: inherit;
+      opacity: 0.85;
+    }
+
+    /* stay row at bottom */
+    .stay-row td {
+      background: #2b6cb0 !important;
+      color: #fff;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 8px 6px;
+      border-bottom: none;
+    }
+
+    .stay-row td.time-label {
+      background: #2a4a6b !important;
+      color: #90cdf4;
+      border-right: 2px solid #2a5a8b;
+    }
+
+    .stay-icon { font-size: 1rem; display: block; margin-bottom: 2px; }
+
+    /* legend */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #4a5568;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Japan Trip Itinerary</h1>
+<p class="subtitle">2 adults, 2 children</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <!-- Row 1: Day headers -->
+    <tr>
+      <th class="time-col day-col" style="background:#4a5568;"></th>
+      <th class="day-col">
+        <span class="date-num">24</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Thursday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">25</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Friday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">26</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Saturday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">27</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Sunday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">28</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Monday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">29</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Tuesday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">30</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Wednesday</span>
+      </th>
+      <th class="day-col">
+        <span class="date-num">31</span>
+        <span class="date-mon">Dec</span>
+        <span class="date-dow">Thursday</span>
+      </th>
+    </tr>
+
+    <!-- Row 2: Destination sub-header -->
+    <tr>
+      <th class="dest-col time-col">Destination</th>
+      <th class="dest-col">✈ Los Angeles</th>
+      <th class="dest-col">Tokyo · Shinagawa</th>
+      <th class="dest-col">Kinosaki Onsen</th>
+      <th class="dest-col">Kyoto</th>
+      <th class="dest-col">Kyoto</th>
+      <th class="dest-col">Kyoto</th>
+      <th class="dest-col">Narita</th>
+      <th class="dest-col">✈ Narita → LAX</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <!-- Morning row -->
+    <tr>
+      <td class="time-label">Morning<br>6 AM – 12 PM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">Depart</span>
+          <span class="ev-time">9:30 AM</span><br>
+          <span class="ev-desc">ZIPAIR ZG023<br>LAX Tom Bradley Terminal</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">In Flight</span>
+          <span class="ev-desc">Over Pacific Ocean<br>(overnight flight)</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="event ev-checkout">
+          <span class="ev-label">Check-out</span>
+          <span class="ev-desc">Shinagawa Tobu Hotel</span>
+        </div>
+        <div class="event ev-travel">
+          <span class="ev-label">Travel</span>
+          <span class="ev-desc">Tokyo → Kinosaki Onsen<br>(~3.5 hrs by Shinkansen)</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="event ev-ryokan">
+          <span class="ev-label">Breakfast Included</span>
+          <span class="ev-desc">Ryokan Onishiya Suishoen<br>Traditional Japanese breakfast</span>
+        </div>
+        <div class="event ev-checkout">
+          <span class="ev-label">Check-out</span>
+          <span class="ev-desc">Kinosaki Onsen Ryokan</span>
+        </div>
+        <div class="event ev-travel">
+          <span class="ev-label">Travel</span>
+          <span class="ev-desc">Kinosaki → Kyoto<br>(~2 hrs by train)</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="event ev-free">
+          <span class="ev-label">Free Day</span>
+          <span class="ev-desc">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="event ev-free">
+          <span class="ev-label">Free Day</span>
+          <span class="ev-desc">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="event ev-checkout">
+          <span class="ev-label">Check-out by 11 AM</span>
+          <span class="ev-desc">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+        <div class="event ev-travel">
+          <span class="ev-label">Travel</span>
+          <span class="ev-desc">Kyoto → Narita<br>(Shinkansen + train)</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="event ev-checkout">
+          <span class="ev-label">Check-out by 11 AM</span>
+          <span class="ev-desc">Narita Tobu Hotel Airport</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Afternoon row -->
+    <tr>
+      <td class="time-label">Afternoon<br>12 PM – 6 PM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">In Flight</span>
+          <span class="ev-desc">ZIPAIR ZG023<br>Pacific crossing</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">Arrive</span>
+          <span class="ev-time">2:25 PM</span><br>
+          <span class="ev-desc">Narita Terminal 1</span>
+        </div>
+        <div class="event ev-hotel">
+          <span class="ev-label">Check-in</span>
+          <span class="ev-desc">Shinagawa Tobu Hotel<br>4-7-6 Takanawa, Minato-ku</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="event ev-ryokan">
+          <span class="ev-label">Check-in</span>
+          <span class="ev-desc">Ryokan Onishiya Suishoen<br>1256 Kinosaki Momoshima</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Check-in from 3 PM</span>
+          <span class="ev-desc">Hotel Keihan Kyoto GRANDE<br>31 Higashikujyo-nishisannou-cho</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="event ev-free">
+          <span class="ev-label">Free Day</span>
+          <span class="ev-desc">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="event ev-free">
+          <span class="ev-label">Free Day</span>
+          <span class="ev-desc">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Check-in from 3 PM</span>
+          <span class="ev-desc">Narita Tobu Hotel Airport<br>Tokko 320-1, Narita</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">Depart</span>
+          <span class="ev-time">2:45 PM</span><br>
+          <span class="ev-desc">ZIPAIR ZG024<br>Narita Terminal 1 → LAX</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Evening row -->
+    <tr>
+      <td class="time-label">Evening<br>6 PM – 12 AM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">In Flight</span>
+          <span class="ev-desc">ZIPAIR ZG023</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Overnight</span>
+          <span class="ev-desc">Shinagawa Tobu Hotel<br>Moderate Twin Room (3 ppl)<br>Coffee &amp; tea · Free WiFi</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="event ev-ryokan">
+          <span class="ev-label">Kaiseki Dinner Included</span>
+          <span class="ev-desc">Ryokan Onishiya Suishoen<br>Private dining room<br>Crab hot pot · sashimi · more</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Overnight</span>
+          <span class="ev-desc">Hotel Keihan Kyoto GRANDE<br>Triple Room, Non-Smoking</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Overnight</span>
+          <span class="ev-desc">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Overnight</span>
+          <span class="ev-desc">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="event ev-hotel">
+          <span class="ev-label">Overnight</span>
+          <span class="ev-desc">Narita Tobu Hotel Airport<br>Standard Triple Non-Smoking</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="event ev-flight">
+          <span class="ev-label">Arrive LAX</span>
+          <span class="ev-time">7:30 AM</span><br>
+          <span class="ev-desc">(same calendar day — crosses date line)<br>Tom Bradley Terminal</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Staying at row -->
+    <tr class="stay-row">
+      <td class="time-label">Staying at</td>
+      <td><span class="stay-icon">✈</span>In Flight (ZG023)</td>
+      <td><span class="stay-icon">🏨</span>Shinagawa Tobu Hotel · Tokyo</td>
+      <td><span class="stay-icon">♨️</span>Ryokan Onishiya Suishoen · Kinosaki</td>
+      <td><span class="stay-icon">🏨</span>Hotel Keihan Kyoto GRANDE</td>
+      <td><span class="stay-icon">🏨</span>Hotel Keihan Kyoto GRANDE</td>
+      <td><span class="stay-icon">🏨</span>Hotel Keihan Kyoto GRANDE</td>
+      <td><span class="stay-icon">🏨</span>Narita Tobu Hotel Airport</td>
+      <td><span class="stay-icon">✈</span>Homeward (ZG024)</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#3182ce;"></div> Flight</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#38a169;"></div> Hotel</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div> Ryokan / Onsen</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#805ad5;"></div> Travel / Transit</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e53e3e;"></div> Check-out</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#cbd5e0;"></div> Free time</div>
+</div>
+
+</body>
+</html>

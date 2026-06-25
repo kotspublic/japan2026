@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan Trip — Booking Summary Dec 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      padding: 40px 16px 60px;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1a365d;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header .subtitle {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      color: #718096;
+    }
+
+    .page-header .tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .tag {
+      background: #2b6cb0;
+      color: #fff;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .tag.green  { background: #276749; }
+    .tag.purple { background: #553c9a; }
+    .tag.orange { background: #c05621; }
+
+    /* ── Timeline ── */
+    .timeline {
+      max-width: 780px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 38px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, #bee3f8, #2b6cb0 10%, #2b6cb0 90%, #bee3f8);
+      border-radius: 2px;
+    }
+
+    /* ── Day group ── */
+    .day-group {
+      margin-bottom: 36px;
+    }
+
+    .day-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .day-badge {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      background: #2b6cb0;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(43,108,176,0.35);
+      border: 3px solid #fff;
+    }
+
+    .day-badge .num  { font-size: 1.7rem; font-weight: 800; line-height: 1; }
+    .day-badge .mon  { font-size: 0.65rem; font-weight: 700; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.06em; }
+    .day-badge .dow  { font-size: 0.6rem; opacity: 0.7; margin-top: 1px; }
+
+    .day-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2b6cb0;
+    }
+
+    .day-location {
+      font-size: 0.82rem;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    /* ── Booking cards ── */
+    .cards {
+      margin-left: 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border-left: 5px solid #cbd5e0;
+      position: relative;
+    }
+
+    .card.flight   { border-left-color: #3182ce; }
+    .card.hotel    { border-left-color: #38a169; }
+    .card.ryokan   { border-left-color: #d97706; }
+    .card.train    { border-left-color: #805ad5; }
+    .card.transit  { border-left-color: #319795; }
+
+    .card-type {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .flight  .card-type { background: #ebf4ff; color: #2b6cb0; }
+    .hotel   .card-type { background: #f0fff4; color: #276749; }
+    .ryokan  .card-type { background: #fffaf0; color: #c05621; }
+    .train   .card-type { background: #faf5ff; color: #553c9a; }
+    .transit .card-type { background: #e6fffa; color: #2c7a7b; }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 4px;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    .card-meta strong { color: #1a202c; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 24px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: #4a5568;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 520px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
+
+    .card-grid .label { font-weight: 600; color: #718096; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      color: #4a5568;
+    }
+
+    .route-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 6px;
+    }
+
+    .route-arrow span { color: #a0aec0; font-size: 1rem; }
+
+    /* ── Summary table ── */
+    .summary-section {
+      max-width: 780px;
+      margin: 48px auto 0;
+    }
+
+    .summary-section h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a365d;
+      margin-bottom: 12px;
+      padding-left: 4px;
+      border-left: 4px solid #2b6cb0;
+      padding-left: 10px;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      font-size: 0.82rem;
+    }
+
+    .summary-table thead th {
+      background: #2b6cb0;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .summary-table tbody tr:nth-child(even) { background: #f7fafc; }
+
+    .summary-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+      color: #2d3748;
+    }
+
+    .summary-table tbody tr:last-child td { border-bottom: none; }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── Cost summary ── */
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .cost-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    .cost-card .cost-label { font-size: 0.7rem; color: #718096; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .cost-card .cost-val   { font-size: 1.3rem; font-weight: 800; color: #1a365d; margin-top: 4px; }
+    .cost-card .cost-sub   { font-size: 0.7rem; color: #a0aec0; margin-top: 2px; }
+
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 0.72rem;
+      color: #a0aec0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Page Header ── -->
+<div class="page-header">
+  <h1>Japan Trip — December 2026</h1>
+  <p class="subtitle">Booking summary · 8 days · 2 adults + 2 children</p>
+  <div class="tags">
+    <span class="tag">LAX ↔ Narita · ZIPAIR</span>
+    <span class="tag green">Tokyo · Kinosaki · Kyoto · Narita</span>
+    <span class="tag purple">2× Shinkansen · smart EX</span>
+    <span class="tag orange">Dec 24 – Dec 31, 2026</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TIMELINE
+═══════════════════════════════════════════════ -->
+<div class="timeline">
+
+  <!-- ── Dec 24 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">24</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Thursday</span>
+      </div>
+      <div>
+        <div class="day-title">Depart Los Angeles</div>
+        <div class="day-location">LAX Tom Bradley International Terminal</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card flight">
+        <span class="card-type">✈ International Flight</span>
+        <div class="route-arrow">LAX <span>→</span> NRT</div>
+        <div class="card-grid">
+          <div><span class="label">Carrier</span><br>ZIPAIR Tokyo · ZG023</div>
+          <div><span class="label">Fare class</span><br>Economy — ZIP Standard Value</div>
+          <div><span class="label">Departs</span><br><strong>09:30</strong> — LAX T-TBIT</div>
+          <div><span class="label">Arrives</span><br><strong>14:25 Dec 25</strong> — Narita T1</div>
+          <div><span class="label">Passengers</span><br>2 adults · 2 children</div>
+          <div><span class="label">Seats</span><br>Exit row + window seats (paid)</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">No meals included</span>
+          <span class="pill">~11 hr flight</span>
+          <span class="pill">Crosses International Date Line</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 25 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">25</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Friday</span>
+      </div>
+      <div>
+        <div class="day-title">Arrive Tokyo — Shinagawa</div>
+        <div class="day-location">Narita International Airport → Shinagawa, Minato-ku</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card transit">
+        <span class="card-type">🚆 Airport Transfer</span>
+        <div class="card-meta">Narita T1 → Shinagawa via Narita Express (N'EX) or Limousine Bus<br>Allow ~1.5 hrs from landing to hotel</div>
+      </div>
+      <div class="card hotel">
+        <span class="card-type">🏨 Hotel · 1 Night</span>
+        <div class="card-title">Shinagawa Tobu Hotel</div>
+        <div class="card-meta">4-7-6 Takanawa, Minato-ku, Tokyo 108-0074</div>
+        <div class="card-grid">
+          <div><span class="label">Check-in</span><br>Dec 25, 2026</div>
+          <div><span class="label">Check-out</span><br>Dec 26, 2026</div>
+          <div><span class="label">Room</span><br>Moderate Twin Room A for 3 — Non-Smoking</div>
+          <div><span class="label">Platform</span><br>Agoda</div>
+          <div><span class="label">Guests</span><br>2 adults · 2 children</div>
+          <div><span class="label">Cancellation</span><br>Free before Dec 22; within 3 days = 100%</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Express check-in</span>
+          <span class="pill">Free WiFi</span>
+          <span class="pill">Coffee &amp; tea</span>
+          <span class="pill">City tax at property</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 26 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">26</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Saturday</span>
+      </div>
+      <div>
+        <div class="day-title">Shinagawa → Kinosaki Onsen</div>
+        <div class="day-location">Shinkansen to Kyoto · Limited Express onward to Kinosaki</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card train">
+        <span class="card-type">🚄 Shinkansen · smart EX</span>
+        <div class="route-arrow">Shinagawa <span>→</span> Kyoto</div>
+        <div class="card-grid">
+          <div><span class="label">Train</span><br>NOZOMI 15</div>
+          <div><span class="label">Fare</span><br>¥35,420 (~$236)</div>
+          <div><span class="label">Departs</span><br><strong>08:19</strong> — Shinagawa</div>
+          <div><span class="label">Arrives</span><br><strong>10:23</strong> — Kyoto</div>
+          <div><span class="label">Passengers</span><br>2 adults · 1 child</div>
+          <div><span class="label">Boarding</span><br>QR ticket or IC card</div>
+        </div>
+      </div>
+      <div class="card transit">
+        <span class="card-type">🚆 Onward Transfer</span>
+        <div class="card-meta">Kyoto → Kinosaki Onsen<br>Limited Express Kinosaki (~2 hrs) · JR San'in Line</div>
+      </div>
+      <div class="card ryokan">
+        <span class="card-type">♨ Ryokan · 1 Night</span>
+        <div class="card-title">大西屋水翔苑 — Onishiya Suishoen</div>
+        <div class="card-meta">1256 Kinosaki Momoshima, Toyooka, Hyogo 669-6102 · Kinosaki Onsen</div>
+        <div class="card-grid">
+          <div><span class="label">Check-in</span><br>Dec 26, 2026</div>
+          <div><span class="label">Check-out</span><br>Dec 27, 2026</div>
+          <div><span class="label">Room</span><br>Japanese-style tatami room</div>
+          <div><span class="label">Platform</span><br>Agoda</div>
+          <div><span class="label">Meal plan</span><br>Full board (dinner + breakfast)</div>
+          <div><span class="label">Cancellation</span><br>Free before Dec 23; within 3 days = 50%</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Kaiseki dinner (private room)</span>
+          <span class="pill">Crab hot pot · crab sashimi</span>
+          <span class="pill">Tango Koshihikari rice</span>
+          <span class="pill">Traditional breakfast</span>
+          <span class="pill">Bike rental</span>
+          <span class="pill">Free WiFi</span>
+          <span class="pill">Non-smoking (Hyogo law)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 27 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">27</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Sunday</span>
+      </div>
+      <div>
+        <div class="day-title">Kinosaki → Kyoto</div>
+        <div class="day-location">Check out ryokan · travel to Kyoto · check in</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card transit">
+        <span class="card-type">🚆 Transfer</span>
+        <div class="card-meta">Kinosaki Onsen → Kyoto<br>Limited Express (~2 hrs) · Check-in at hotel from 15:00</div>
+      </div>
+      <div class="card hotel">
+        <span class="card-type">🏨 Hotel · 3 Nights</span>
+        <div class="card-title">Hotel Keihan Kyoto GRANDE</div>
+        <div class="card-meta">31 Higashikujyo-nishisannou-cho, Minami, Kyoto 601-8003</div>
+        <div class="card-grid">
+          <div><span class="label">Check-in</span><br>Dec 27, 2026 (from 15:00)</div>
+          <div><span class="label">Check-out</span><br>Dec 30, 2026 (by 11:00)</div>
+          <div><span class="label">Room</span><br>Triple Room, Non-Smoking</div>
+          <div><span class="label">Platform</span><br>Hotels.com (prepaid)</div>
+          <div><span class="label">Nightly rates</span><br>$112 · $116 · $124</div>
+          <div><span class="label">Total paid</span><br>~$393 incl. taxes</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Prepaid — likely non-refundable</span>
+          <span class="pill">3 free days in Kyoto (Dec 28–29)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 28 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge" style="background:#4a5568;">
+        <span class="num">28</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Monday</span>
+      </div>
+      <div>
+        <div class="day-title" style="color:#4a5568;">Free Day — Kyoto</div>
+        <div class="day-location">Hotel Keihan Kyoto GRANDE</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card" style="border-left-color:#cbd5e0;">
+        <span class="card-type" style="background:#f7fafc;color:#718096;">🗺 Free Day</span>
+        <div class="card-meta">No bookings. Explore Kyoto — temples, shrines, Nishiki Market, Arashiyama, Fushimi Inari, etc.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 29 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge" style="background:#4a5568;">
+        <span class="num">29</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Tuesday</span>
+      </div>
+      <div>
+        <div class="day-title" style="color:#4a5568;">Free Day — Kyoto</div>
+        <div class="day-location">Hotel Keihan Kyoto GRANDE</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card" style="border-left-color:#cbd5e0;">
+        <span class="card-type" style="background:#f7fafc;color:#718096;">🗺 Free Day</span>
+        <div class="card-meta">No bookings. Continue exploring Kyoto or day trip to Nara / Osaka.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 30 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">30</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Wednesday</span>
+      </div>
+      <div>
+        <div class="day-title">Kyoto → Shinagawa → Narita</div>
+        <div class="day-location">Shinkansen · then Narita Express / Limousine Bus</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card train">
+        <span class="card-type">🚄 Shinkansen · smart EX</span>
+        <div class="route-arrow">Kyoto <span>→</span> Shinagawa</div>
+        <div class="card-grid">
+          <div><span class="label">Train</span><br>NOZOMI 20</div>
+          <div><span class="label">Fare</span><br>¥35,920 (~$239)</div>
+          <div><span class="label">Departs</span><br><strong>13:01</strong> — Kyoto</div>
+          <div><span class="label">Arrives</span><br><strong>15:08</strong> — Shinagawa</div>
+          <div><span class="label">Passengers</span><br>2 adults · 1 child</div>
+          <div><span class="label">Boarding</span><br>QR ticket or IC card</div>
+        </div>
+      </div>
+      <div class="card transit">
+        <span class="card-type">🚆 Onward Transfer</span>
+        <div class="card-meta">Shinagawa → Narita Airport area<br>Narita Express from Shinagawa (~1 hr 20 min)</div>
+      </div>
+      <div class="card hotel">
+        <span class="card-type">🏨 Airport Hotel · 1 Night</span>
+        <div class="card-title">Narita Tobu Hotel Airport</div>
+        <div class="card-meta">Tokko 320-1, Narita 286-0106 · Tel: +81 476 32 1234</div>
+        <div class="card-grid">
+          <div><span class="label">Check-in</span><br>Dec 30, 2026 (from 15:00)</div>
+          <div><span class="label">Check-out</span><br>Dec 31, 2026 (by 11:00)</div>
+          <div><span class="label">Room</span><br>Standard Triple, Non-Smoking — East Wing</div>
+          <div><span class="label">Beds</span><br>1 twin (35–51") + 2 full (52–59")</div>
+          <div><span class="label">Total</span><br>¥15,795 (~$98) · <strong>Pay at property in JPY</strong></div>
+          <div><span class="label">Cancellation</span><br>Free before Dec 28 23:59; after = full charge</div>
+          <div><span class="label">Platform</span><br>Booking.com (no prepayment)</div>
+          <div><span class="label">Parking</span><br>On-site ¥1,000/day (no reservation)</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">No meals included</span>
+          <span class="pill">Free WiFi</span>
+          <span class="pill">Pay in JPY cash or card at check-in</span>
+          <span class="pill">No date changes allowed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dec 31 ── -->
+  <div class="day-group">
+    <div class="day-label">
+      <div class="day-badge">
+        <span class="num">31</span>
+        <span class="mon">Dec</span>
+        <span class="dow">Thursday</span>
+      </div>
+      <div>
+        <div class="day-title">Depart Narita — Return to Los Angeles</div>
+        <div class="day-location">Narita International Airport Terminal 1</div>
+      </div>
+    </div>
+    <div class="cards">
+      <div class="card flight">
+        <span class="card-type">✈ International Flight</span>
+        <div class="route-arrow">NRT <span>→</span> LAX</div>
+        <div class="card-grid">
+          <div><span class="label">Carrier</span><br>ZIPAIR Tokyo · ZG024</div>
+          <div><span class="label">Fare class</span><br>Economy — ZIP Standard Value</div>
+          <div><span class="label">Departs</span><br><strong>14:45</strong> — Narita T1</div>
+          <div><span class="label">Arrives</span><br><strong>07:30 same day</strong> — LAX T-TBIT<br><em style="font-size:0.7rem;opacity:0.7;">(crosses date line)</em></div>
+          <div><span class="label">Passengers</span><br>2 adults · 2 children</div>
+          <div><span class="label">Seats</span><br>Window seats secured (paid)</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">No meals included</span>
+          <span class="pill">Arrive by 12:00 for check-in (2.5 hrs before)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /timeline -->
+
+<!-- ══════════════════════════════════════════════
+     SUMMARY TABLE
+═══════════════════════════════════════════════ -->
+<div class="summary-section">
+  <h2>At-a-Glance Summary</h2>
+  <div style="overflow-x:auto; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.07);">
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Segment / Property</th>
+        <th>Key Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dec 24 Thu</td>
+        <td><span class="dot" style="background:#3182ce;"></span>Flight</td>
+        <td>ZIPAIR ZG023 · LAX → NRT</td>
+        <td>Depart 09:30 · Arrive 14:25 Dec 25</td>
+      </tr>
+      <tr>
+        <td>Dec 25 Fri</td>
+        <td><span class="dot" style="background:#38a169;"></span>Hotel</td>
+        <td>Shinagawa Tobu Hotel · Tokyo</td>
+        <td>1 night · Agoda · Twin Room for 3+</td>
+      </tr>
+      <tr>
+        <td>Dec 26 Sat</td>
+        <td><span class="dot" style="background:#805ad5;"></span>Train</td>
+        <td>NOZOMI 15 · Shinagawa → Kyoto</td>
+        <td>Depart 08:19 · Arrive 10:23 · ¥35,420 (~$236)</td>
+      </tr>
+      <tr>
+        <td>Dec 26 Sat</td>
+        <td><span class="dot" style="background:#d97706;"></span>Ryokan</td>
+        <td>Onishiya Suishoen · Kinosaki Onsen</td>
+        <td>1 night · Full board · Kaiseki dinner + breakfast</td>
+      </tr>
+      <tr>
+        <td>Dec 27–30</td>
+        <td><span class="dot" style="background:#38a169;"></span>Hotel</td>
+        <td>Hotel Keihan Kyoto GRANDE · Kyoto</td>
+        <td>3 nights · Hotels.com prepaid · ~$393</td>
+      </tr>
+      <tr>
+        <td>Dec 30 Wed</td>
+        <td><span class="dot" style="background:#805ad5;"></span>Train</td>
+        <td>NOZOMI 20 · Kyoto → Shinagawa</td>
+        <td>Depart 13:01 · Arrive 15:08 · ¥35,920 (~$239)</td>
+      </tr>
+      <tr>
+        <td>Dec 30 Wed</td>
+        <td><span class="dot" style="background:#38a169;"></span>Hotel</td>
+        <td>Narita Tobu Hotel Airport · Narita</td>
+        <td>1 night · Pay at property · ¥15,795 (~$98)</td>
+      </tr>
+      <tr>
+        <td>Dec 31 Thu</td>
+        <td><span class="dot" style="background:#3182ce;"></span>Flight</td>
+        <td>ZIPAIR ZG024 · NRT → LAX</td>
+        <td>Depart 14:45 · Arrive 07:30 (date line)</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     COST SUMMARY
+═══════════════════════════════════════════════ -->
+<div class="summary-section">
+  <h2>Approximate Costs (4 passengers)</h2>
+  <div class="cost-grid">
+    <div class="cost-card">
+      <div class="cost-label">Flights (round-trip)</div>
+      <div class="cost-val">~$2,582</div>
+      <div class="cost-sub">ZIPAIR · Economy · 2 adults + 2 children</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Shinagawa Tobu Hotel</div>
+      <div class="cost-val">$157.96</div>
+      <div class="cost-sub">1 night · Agoda</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Kinosaki Ryokan</div>
+      <div class="cost-val">$539.09</div>
+      <div class="cost-sub">1 night full board · Agoda</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Hotel Keihan Kyoto</div>
+      <div class="cost-val">~$393</div>
+      <div class="cost-sub">3 nights prepaid · Hotels.com</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Narita Tobu Hotel</div>
+      <div class="cost-val">~$98</div>
+      <div class="cost-sub">1 night · Pay at property in JPY</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Shinkansen (×2)</div>
+      <div class="cost-val">~$476</div>
+      <div class="cost-sub">¥71,340 · smart EX · 2 adults + 1 child each leg</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Generated from booking confirmations · Japan Trip Dec 2026 · Personal information removed
+</div>
+
+</body>
+</html>
