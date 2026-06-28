@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SooHoo Family Japan Trip 2026 — Itinerary</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:    #2b6cb0;
+      --blue-lt: #ebf4ff;
+      --green:   #276749;
+      --green-lt:#f0fff4;
+      --amber:   #b7791f;
+      --amber-lt:#fffaf0;
+      --purple:  #553c9a;
+      --purple-lt:#faf5ff;
+      --red:     #c53030;
+      --red-lt:  #fff5f5;
+      --gray:    #4a5568;
+      --gray-lt: #f7fafc;
+      --border:  #e2e8f0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #edf2f7;
+      color: #1a202c;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .page-header h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #1a365d;
+      letter-spacing: -0.02em;
+    }
+    .page-header .sub {
+      margin-top: 5px;
+      font-size: 0.85rem;
+      color: #718096;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      background: var(--blue);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .nav-links a:hover { background: #2c5282; }
+    .nav-links a.active { background: #1a365d; }
+
+    /* ── Alerts bar ── */
+    .alerts {
+      max-width: 1100px;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .alert {
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .alert-warn  { background: #fefcbf; border-left: 4px solid #d69e2e; color: #744210; }
+    .alert-info  { background: #ebf8ff; border-left: 4px solid var(--blue); color: #2c5282; }
+    .alert-icon  { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Table wrapper ── */
+    .table-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      overflow-x: auto;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 900px;
+      background: #fff;
+    }
+
+    /* ── Column header row ── */
+    thead tr.hdr-days th {
+      padding: 14px 10px 10px;
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+    }
+    th.col-time {
+      background: #f7fafc;
+      color: #a0aec0;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      width: 80px;
+      min-width: 70px;
+      border-right: 2px solid var(--border);
+    }
+    th.col-day {
+      background: var(--blue);
+      color: #fff;
+      min-width: 118px;
+    }
+    th.col-day .dnum { font-size: 1.6rem; font-weight: 800; line-height: 1; display: block; }
+    th.col-day .dmon { font-size: 0.7rem; opacity: 0.85; display: block; margin-top: 1px; }
+    th.col-day .ddow { font-size: 0.63rem; opacity: 0.65; display: block; margin-top: 2px; }
+
+    /* day-specific tints */
+    th.col-day.travel   { background: #2c5282; }
+    th.col-day.explore  { background: #276749; }
+    th.col-day.depart   { background: #9b2c2c; }
+
+    /* ── Destination sub-header ── */
+    thead tr.hdr-dest th {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      text-align: center;
+      border-bottom: 2px solid var(--border);
+    }
+    th.dest-time {
+      background: #f7fafc;
+      color: #a0aec0;
+      border-right: 2px solid var(--border);
+    }
+    th.dest-loc {
+      background: #ebf8ff;
+      color: #2b6cb0;
+    }
+    th.dest-loc.green { background: #f0fff4; color: #276749; }
+    th.dest-loc.red   { background: #fff5f5; color: #9b2c2c; }
+
+    /* ── Body ── */
+    tbody td {
+      padding: 10px 9px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+    }
+    tbody tr:nth-child(odd)  td { background: #fff; }
+    tbody tr:nth-child(even) td { background: #f7fafc; }
+
+    td.time-label {
+      font-weight: 700;
+      font-size: 0.68rem;
+      color: #718096;
+      text-align: right;
+      padding-right: 11px;
+      white-space: nowrap;
+      border-right: 2px solid var(--border);
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+    /* override stripe for time label column */
+    tbody tr td.time-label { background: #f7fafc !important; }
+
+    /* ── Event pills ── */
+    .ev {
+      border-radius: 7px;
+      padding: 7px 9px;
+      margin-bottom: 5px;
+      line-height: 1.45;
+      font-size: 0.74rem;
+    }
+    .ev:last-child { margin-bottom: 0; }
+
+    .ev-flight  { background: var(--blue-lt);   border-left: 3px solid #3182ce; color: #1a365d; }
+    .ev-hotel   { background: var(--green-lt);   border-left: 3px solid #38a169; color: #1c4532; }
+    .ev-ryokan  { background: var(--amber-lt);   border-left: 3px solid #d97706; color: #7b341e; }
+    .ev-train   { background: var(--purple-lt);  border-left: 3px solid #805ad5; color: #44337a; }
+    .ev-free    { background: var(--gray-lt);    border-left: 3px solid #cbd5e0; color: #4a5568; }
+    .ev-checkout{ background: var(--red-lt);     border-left: 3px solid #e53e3e; color: #742a2a; }
+    .ev-warn    { background: #fefcbf;            border-left: 3px solid #d69e2e; color: #744210; }
+
+    .ev-tag {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.7;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .ev-time { font-weight: 700; font-size: 0.82rem; }
+    .ev-name { font-weight: 600; }
+    .ev-detail { opacity: 0.85; }
+    .ev-conf {
+      display: inline-block;
+      margin-top: 4px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.65rem;
+      font-family: monospace;
+      font-weight: 600;
+    }
+    .ev-cost {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: inherit;
+      opacity: 0.9;
+    }
+
+    /* ── Overnight row ── */
+    tr.row-overnight td {
+      background: #1a365d !important;
+      color: #e2e8f0;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 9px 7px;
+      border-bottom: none;
+    }
+    tr.row-overnight td.time-label {
+      background: #2a4365 !important;
+      color: #90cdf4;
+      border-right: 2px solid #2c5282;
+    }
+    tr.row-overnight td em {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 400;
+      opacity: 0.7;
+      margin-top: 2px;
+      font-style: normal;
+    }
+
+    /* ── Cost summary section ── */
+    .section {
+      max-width: 1100px;
+      margin: 28px auto 0;
+    }
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a365d;
+      padding-left: 12px;
+      border-left: 4px solid var(--blue);
+      margin-bottom: 14px;
+    }
+
+    .cost-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 10px;
+    }
+    .cost-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 13px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+    .cost-label { font-size: 0.67rem; color: #718096; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .cost-val   { font-size: 1.25rem; font-weight: 800; color: #1a365d; margin-top: 3px; }
+    .cost-note  { font-size: 0.67rem; color: #a0aec0; margin-top: 3px; }
+    .cost-total {
+      grid-column: 1 / -1;
+      background: #1a365d;
+      color: #fff;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .cost-total .cost-label { color: #90cdf4; }
+    .cost-total .cost-val   { font-size: 1.8rem; color: #fff; }
+    .cost-total .cost-note  { color: #90cdf4; }
+
+    /* ── Action items ── */
+    .action-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .action-list li {
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .action-list li.urgent { border-left: 4px solid #e53e3e; }
+    .action-list li.warn   { border-left: 4px solid #d69e2e; }
+    .action-list li.info   { border-left: 4px solid #3182ce; }
+    .action-badge {
+      flex-shrink: 0;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .urgent .action-badge { background: #fff5f5; color: #c53030; }
+    .warn   .action-badge { background: #fefcbf; color: #744210; }
+    .info   .action-badge { background: #ebf4ff; color: #2b6cb0; }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.7rem;
+      color: #a0aec0;
+    }
+
+    /* ── Mobile card view ── */
+    @media (max-width: 680px) {
+      .table-wrap { border-radius: 10px; }
+      table { min-width: 700px; }
+      th.col-day { min-width: 100px; }
+      th.col-day .dnum { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="page-header">
+  <h1>The SooHoo Family Japan Trip 2026</h1>
+  <p class="sub">December 24 – 31, 2026 &nbsp;·&nbsp; 4 passengers &nbsp;·&nbsp; LAX ↔ Narita (ZIPAIR)</p>
+  <div class="nav-links">
+    <a href="japan2026_v3.html" class="active">Itinerary Calendar (v3)</a>
+    <a href="itinerary.html">Itinerary (detailed)</a>
+    <a href="summary.html">Booking Summary</a>
+  </div>
+</div>
+
+<!-- Alerts -->
+<div class="alerts">
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠</span>
+    <div><strong>Action required — cancel duplicate Shinagawa hotel.</strong> Direct booking ($164.82) still active. Keep Chase booking ($158.57 · Conf: 2496006925).</div>
+  </div>
+  <div class="alert alert-warn">
+    <span class="alert-icon">⚠</span>
+    <div><strong>Action required — cancel duplicate Kinosaki ryokan.</strong> T-Mobile booking ($567.97) still active. Keep Agoda booking ($561.36 · Booking ID: 1021040430).</div>
+  </div>
+  <div class="alert alert-info">
+    <span class="alert-icon">🚄</span>
+    <div><strong>3 train segments not yet booked:</strong> Tokyo → Kinosaki (~$205.50), Kinosaki → Kyoto (~$48.00), Kyoto → Narita (~$186.00).</div>
+  </div>
+</div>
+
+<!-- Main calendar table -->
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr class="hdr-days">
+      <th class="col-time">Timeframe</th>
+      <th class="col-day">
+        <span class="dnum">24</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Thursday</span>
+      </th>
+      <th class="col-day travel">
+        <span class="dnum">25</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Friday</span>
+      </th>
+      <th class="col-day travel">
+        <span class="dnum">26</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Saturday</span>
+      </th>
+      <th class="col-day travel">
+        <span class="dnum">27</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Sunday</span>
+      </th>
+      <th class="col-day explore">
+        <span class="dnum">28</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Monday</span>
+      </th>
+      <th class="col-day explore">
+        <span class="dnum">29</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Tuesday</span>
+      </th>
+      <th class="col-day travel">
+        <span class="dnum">30</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Wednesday</span>
+      </th>
+      <th class="col-day depart">
+        <span class="dnum">31</span>
+        <span class="dmon">December</span>
+        <span class="ddow">Thursday</span>
+      </th>
+    </tr>
+    <tr class="hdr-dest">
+      <th class="dest-time">Location</th>
+      <th class="dest-loc">✈ Los Angeles</th>
+      <th class="dest-loc">In Flight / Tokyo</th>
+      <th class="dest-loc">Kinosaki Onsen</th>
+      <th class="dest-loc green">Kyoto</th>
+      <th class="dest-loc green">Kyoto</th>
+      <th class="dest-loc green">Kyoto</th>
+      <th class="dest-loc">Narita</th>
+      <th class="dest-loc red">✈ Narita → LAX</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- MORNING ROW -->
+    <tr>
+      <td class="time-label">Morning<br>6 AM – 12 PM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">Depart</span>
+          <span class="ev-time">9:30 AM</span><br>
+          <span class="ev-name">ZIPAIR ZG023</span><br>
+          <span class="ev-detail">LAX Tom Bradley Terminal</span><br>
+          <span class="ev-conf">Conf: 4FCZTO</span><br>
+          <span class="ev-conf">Seats: 22E · 22G · 22D</span><br>
+          <span class="ev-cost">Cost: $1,214.48</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">In Flight</span>
+          <span class="ev-name">ZIPAIR ZG023</span><br>
+          <span class="ev-detail">Over Pacific Ocean<br>(overnight flight)</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="ev ev-checkout">
+          <span class="ev-tag">Check-out before 11 AM</span>
+          <span class="ev-name">Shinagawa Tobu Hotel</span>
+        </div>
+        <div class="ev ev-train">
+          <span class="ev-tag">Train — not booked yet</span>
+          <span class="ev-name">Tokyo → Kinosaki Onsen</span><br>
+          <span class="ev-detail">Est: $205.50 total</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="ev ev-ryokan">
+          <span class="ev-tag">Breakfast Included</span>
+          <span class="ev-name">Onishiya Suishoen</span>
+        </div>
+        <div class="ev ev-checkout">
+          <span class="ev-tag">Check-out at 10:00 AM</span>
+          <span class="ev-name">Kinosaki Onsen Ryokan</span>
+        </div>
+        <div class="ev ev-train">
+          <span class="ev-tag">Train — not booked yet</span>
+          <span class="ev-name">Kinosaki → Kyoto</span><br>
+          <span class="ev-detail">~2.5 hrs · Est: $48.00 total</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="ev ev-free">
+          <span class="ev-tag">Free Day</span>
+          <span class="ev-name">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="ev ev-free">
+          <span class="ev-tag">Free Day</span>
+          <span class="ev-name">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="ev ev-checkout">
+          <span class="ev-tag">Check-out by 11 AM</span>
+          <span class="ev-name">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+        <div class="ev ev-train">
+          <span class="ev-tag">Train — not booked yet</span>
+          <span class="ev-name">Kyoto → Narita Airport</span><br>
+          <span class="ev-detail">Est: $186.00 total</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="ev ev-checkout">
+          <span class="ev-tag">Check-out by 11 AM</span>
+          <span class="ev-name">Narita Tobu Hotel Airport</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- AFTERNOON ROW -->
+    <tr>
+      <td class="time-label">Afternoon<br>12 PM – 6 PM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">In Flight</span>
+          <span class="ev-name">ZIPAIR ZG023</span><br>
+          <span class="ev-detail">Pacific crossing</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">Arrive</span>
+          <span class="ev-time">2:25 PM</span><br>
+          <span class="ev-name">Narita Terminal 1</span>
+        </div>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Check-in after 3 PM</span>
+          <span class="ev-name">Shinagawa Tobu Hotel</span><br>
+          <span class="ev-detail">Chase Booking</span><br>
+          <span class="ev-conf">Conf: 2496006925</span><br>
+          <span class="ev-cost">Cost: $158.57</span>
+        </div>
+        <div class="ev ev-warn">
+          <span class="ev-tag">⚠ Action Required</span>
+          <span class="ev-detail">Cancel direct booking! ($164.82)</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="ev ev-ryokan">
+          <span class="ev-tag">Check-in at 2:00 PM</span>
+          <span class="ev-name">Ryokan Onishiya Suishoen</span><br>
+          <span class="ev-conf">Booking ID: 1021040430</span><br>
+          <span class="ev-cost">Cost: $561.36</span>
+        </div>
+        <div class="ev ev-warn">
+          <span class="ev-tag">⚠ Duplicate Notice</span>
+          <span class="ev-detail">Cancel T-Mobile Booking! ($567.97)</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Check-in from 3 PM</span>
+          <span class="ev-name">Hotel Keihan Kyoto GRANDE</span><br>
+          <span class="ev-detail">Double Room, 1 King</span><br>
+          <span class="ev-conf">Conf: 2496015735</span><br>
+          <span class="ev-cost">Cost: $383.16 (3 Nights)</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="ev ev-free">
+          <span class="ev-tag">Free Day</span>
+          <span class="ev-name">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="ev ev-free">
+          <span class="ev-tag">Free Day</span>
+          <span class="ev-name">Explore Kyoto</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Check-in from 3 PM</span>
+          <span class="ev-name">Narita Tobu Hotel Airport</span><br>
+          <span class="ev-detail">Comfort Triple · West Wing</span><br>
+          <span class="ev-conf">Conf: 249604173</span><br>
+          <span class="ev-cost">Cost: $106.83</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">Depart</span>
+          <span class="ev-time">2:45 PM</span><br>
+          <span class="ev-name">ZIPAIR ZG024</span><br>
+          <span class="ev-detail">Narita Terminal 1</span><br>
+          <span class="ev-conf">Conf: 4FCZTO</span><br>
+          <span class="ev-conf">Seats: 33E · 33G · 33D</span><br>
+          <span class="ev-cost">Cost: $1,227.96</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- EVENING ROW -->
+    <tr>
+      <td class="time-label">Evening<br>6 PM – 12 AM</td>
+
+      <!-- Dec 24 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">In Flight</span>
+          <span class="ev-name">ZIPAIR ZG023</span><br>
+          <span class="ev-detail">Over Pacific Ocean</span>
+        </div>
+      </td>
+
+      <!-- Dec 25 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Overnight</span>
+          <span class="ev-name">Shinagawa Tobu Hotel</span><br>
+          <span class="ev-detail">Chase Booking</span>
+        </div>
+      </td>
+
+      <!-- Dec 26 -->
+      <td>
+        <div class="ev ev-ryokan">
+          <span class="ev-tag">Kaiseki Dinner Included</span>
+          <span class="ev-name">Ryokan Onishiya Suishoen</span><br>
+          <span class="ev-detail">Private dining · crab hot pot<br>sashimi · traditional Japanese</span>
+        </div>
+      </td>
+
+      <!-- Dec 27 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Overnight</span>
+          <span class="ev-name">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+      </td>
+
+      <!-- Dec 28 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Overnight</span>
+          <span class="ev-name">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+      </td>
+
+      <!-- Dec 29 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Overnight</span>
+          <span class="ev-name">Hotel Keihan Kyoto GRANDE</span>
+        </div>
+      </td>
+
+      <!-- Dec 30 -->
+      <td>
+        <div class="ev ev-hotel">
+          <span class="ev-tag">Overnight</span>
+          <span class="ev-name">Narita Tobu Hotel Airport</span>
+        </div>
+      </td>
+
+      <!-- Dec 31 -->
+      <td>
+        <div class="ev ev-flight">
+          <span class="ev-tag">Arrive LAX</span>
+          <span class="ev-time">8:25 AM</span><br>
+          <span class="ev-detail">Same Day (Dec 31)<br>crosses date line</span>
+        </div>
+      </td>
+    </tr>
+
+    <!-- OVERNIGHT SUMMARY ROW -->
+    <tr class="row-overnight">
+      <td class="time-label">Staying at</td>
+      <td>✈ In Flight<em>ZIPAIR ZG023</em></td>
+      <td>🏨 Shinagawa Tobu Hotel<em>Tokyo · 1 night</em></td>
+      <td>♨ Ryokan Onishiya Suishoen<em>Kinosaki Onsen · 1 night</em></td>
+      <td>🏨 Hotel Keihan Kyoto GRANDE<em>Kyoto · night 1 of 3</em></td>
+      <td>🏨 Hotel Keihan Kyoto GRANDE<em>Kyoto · night 2 of 3</em></td>
+      <td>🏨 Hotel Keihan Kyoto GRANDE<em>Kyoto · night 3 of 3</em></td>
+      <td>🏨 Narita Tobu Hotel Airport<em>Narita · 1 night</em></td>
+      <td>✈ Homeward<em>ZIPAIR ZG024 → LAX</em></td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<!-- Cost Summary -->
+<div class="section">
+  <h2>Trip Cost Ledger</h2>
+  <div class="cost-grid">
+    <div class="cost-card">
+      <div class="cost-label">Flights (Outbound)</div>
+      <div class="cost-val">$1,214.48</div>
+      <div class="cost-note">ZIPAIR ZG023 · LAX → NRT<br>Conf: 4FCZTO</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Flights (Return)</div>
+      <div class="cost-val">$1,227.96</div>
+      <div class="cost-note">ZIPAIR ZG024 · NRT → LAX<br>Conf: 4FCZTO</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Shinagawa Tobu Hotel</div>
+      <div class="cost-val">$158.57</div>
+      <div class="cost-note">1 night · Chase Booking<br>Conf: 2496006925</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Kinosaki Ryokan</div>
+      <div class="cost-val">$561.36</div>
+      <div class="cost-note">1 night · Full board · Agoda<br>ID: 1021040430</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Hotel Keihan Kyoto</div>
+      <div class="cost-val">$383.16</div>
+      <div class="cost-note">3 nights · Double King<br>Conf: 2496015735</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Narita Tobu Hotel</div>
+      <div class="cost-val">$106.83</div>
+      <div class="cost-note">1 night · Comfort Triple<br>Conf: 249604173</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Train: Tokyo→Kinosaki</div>
+      <div class="cost-val" style="color:#805ad5;">~$205.50</div>
+      <div class="cost-note">Est. · Not yet booked</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Train: Kinosaki→Kyoto</div>
+      <div class="cost-val" style="color:#805ad5;">~$48.00</div>
+      <div class="cost-note">Est. · Not yet booked</div>
+    </div>
+    <div class="cost-card">
+      <div class="cost-label">Train: Kyoto→Narita</div>
+      <div class="cost-val" style="color:#805ad5;">~$186.00</div>
+      <div class="cost-note">Est. · Not yet booked</div>
+    </div>
+    <div class="cost-total">
+      <div class="cost-label">Confirmed Booked Total</div>
+      <div class="cost-val">$3,652.36</div>
+      <div class="cost-note">Flights + Hotels/Ryokan (excl. unbooked trains ~$439.50)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Action Items -->
+<div class="section" style="margin-top:24px;">
+  <h2>Action Items</h2>
+  <ul class="action-list">
+    <li class="urgent">
+      <span class="action-badge">Cancel</span>
+      <div>Cancel <strong>Shinagawa Tobu Hotel direct booking</strong> ($164.82). Keep Chase booking · Conf: 2496006925 · $158.57.</div>
+    </li>
+    <li class="urgent">
+      <span class="action-badge">Cancel</span>
+      <div>Cancel <strong>Kinosaki Ryokan T-Mobile booking</strong> ($567.97). Keep Agoda booking · ID: 1021040430 · $561.36.</div>
+    </li>
+    <li class="warn">
+      <span class="action-badge">Book</span>
+      <div>Book <strong>Tokyo → Kinosaki Onsen</strong> train (Dec 26 morning, after 11 AM check-out). Est: $205.50 total.</div>
+    </li>
+    <li class="warn">
+      <span class="action-badge">Book</span>
+      <div>Book <strong>Kinosaki → Kyoto</strong> train (Dec 27 morning, after 10 AM check-out, ~2.5 hrs). Est: $48.00 total.</div>
+    </li>
+    <li class="warn">
+      <span class="action-badge">Book</span>
+      <div>Book <strong>Kyoto → Narita Airport</strong> train (Dec 30 morning, before 3 PM hotel check-in in Narita). Est: $186.00 total.</div>
+    </li>
+    <li class="info">
+      <span class="action-badge">Note</span>
+      <div>Return flight ZG024 departs <strong>Dec 31 at 2:45 PM</strong>. Allow 2.5 hrs · arrive Narita by 12:00 PM. Check-out Narita Tobu Hotel by 11 AM.</div>
+    </li>
+  </ul>
+</div>
+
+<div class="footer">
+  The SooHoo Family Japan Trip 2026 · v3 · Generated from PDF itinerary
+</div>
+
+</body>
+</html>
