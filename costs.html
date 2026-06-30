@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Japan Trip — Hotel Cost Breakdown</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f4f8;
+      padding: 40px 20px;
+      color: #1a202c;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 0.88rem;
+      color: #718096;
+      margin-bottom: 32px;
+    }
+
+    .section {
+      max-width: 780px;
+      margin: 0 auto 36px auto;
+    }
+
+    .section h2 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4a5568;
+      margin-bottom: 10px;
+      padding-left: 4px;
+      border-left: 3px solid #2b6cb0;
+      padding-left: 10px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .card-header .hotel-name {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .card-header .dates {
+      font-size: 0.78rem;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    .card-header .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-blue   { background: #ebf8ff; color: #2b6cb0; }
+    .badge-amber  { background: #fffaf0; color: #c05621; }
+    .badge-green  { background: #f0fff4; color: #276749; }
+    .badge-purple { background: #faf5ff; color: #553c9a; }
+
+    /* color strips per hotel */
+    .strip-blue   { border-top: 4px solid #3182ce; }
+    .strip-amber  { border-top: 4px solid #d97706; }
+    .strip-green  { border-top: 4px solid #38a169; }
+    .strip-purple { border-top: 4px solid #805ad5; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      background: #f7fafc;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #718096;
+      padding: 10px 20px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    thead th.num { text-align: right; }
+
+    tbody td {
+      padding: 11px 20px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #f0f4f8;
+      vertical-align: middle;
+    }
+
+    tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    tbody tr:last-child td { border-bottom: none; }
+
+    .label-muted { color: #a0aec0; font-size: 0.75rem; }
+
+    .subtotal-row td {
+      background: #f7fafc;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: #4a5568;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: none;
+    }
+
+    .total-row td {
+      background: #2b6cb0;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+    }
+
+    .saving-row td {
+      background: #f0fff4;
+      color: #276749;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: none;
+    }
+
+    .na-cell {
+      color: #a0aec0;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    /* Summary table */
+    .summary-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .summary-card thead th {
+      background: #2d3748;
+      color: #e2e8f0;
+    }
+
+    .summary-total-row td {
+      background: #1a202c;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .note {
+      font-size: 0.75rem;
+      color: #718096;
+      margin-top: 12px;
+      padding-left: 4px;
+    }
+
+    .note span { font-weight: 600; color: #4a5568; }
+  </style>
+</head>
+<body>
+
+<h1>Japan Trip — Hotel Cost Breakdown</h1>
+<p class="subtitle">December 2026 &nbsp;·&nbsp; All prices in USD</p>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <h2>Per-Hotel Breakdown</h2>
+
+  <!-- 1. Shinagawa Tobu Hotel -->
+  <div class="card strip-blue">
+    <div class="card-header">
+      <div>
+        <div class="hotel-name">Shinagawa Tobu Hotel</div>
+        <div class="dates">Dec 25 – Dec 26 &nbsp;·&nbsp; 1 night &nbsp;·&nbsp; Tokyo</div>
+      </div>
+      <span class="badge badge-blue">Agoda</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="num">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Room rate (1 night)<br><span class="label-muted">Moderate Twin Room — Non-Smoking</span></td>
+          <td class="num na-cell">Not shown in confirmation</td>
+        </tr>
+        <tr>
+          <td>Taxes &amp; fees</td>
+          <td class="num na-cell">—</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td>Total paid</td>
+          <td class="num na-cell">See Agoda confirmation email</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2. Ryokan Onishiya Suishoen -->
+  <div class="card strip-amber">
+    <div class="card-header">
+      <div>
+        <div class="hotel-name">Ryokan Onishiya Suishoen</div>
+        <div class="dates">Dec 26 – Dec 27 &nbsp;·&nbsp; 1 night &nbsp;·&nbsp; Kinosaki Onsen</div>
+      </div>
+      <span class="badge badge-amber">Agoda</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="num">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Room rate (1 night)<br><span class="label-muted">Japanese Room — Dinner &amp; Breakfast Included</span></td>
+          <td class="num na-cell">Not shown in confirmation</td>
+        </tr>
+        <tr>
+          <td>Taxes &amp; fees</td>
+          <td class="num na-cell">—</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td>Total paid</td>
+          <td class="num na-cell">See Agoda confirmation email</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. Hotel Keihan Kyoto GRANDE -->
+  <div class="card strip-green">
+    <div class="card-header">
+      <div>
+        <div class="hotel-name">Hotel Keihan Kyoto GRANDE</div>
+        <div class="dates">Dec 27 – Dec 30 &nbsp;·&nbsp; 3 nights &nbsp;·&nbsp; Kyoto</div>
+      </div>
+      <span class="badge badge-green">Expedia</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="num">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sun, Dec 27<br><span class="label-muted">Triple Room, Non-Smoking</span></td>
+          <td class="num">$118.77</td>
+        </tr>
+        <tr>
+          <td>Mon, Dec 28</td>
+          <td class="num">$132.92</td>
+        </tr>
+        <tr>
+          <td>Tue, Dec 29</td>
+          <td class="num">$131.70</td>
+        </tr>
+        <tr>
+          <td>Taxes</td>
+          <td class="num">$42.13</td>
+        </tr>
+        <tr class="subtotal-row">
+          <td>Subtotal charged</td>
+          <td class="num">$425.52</td>
+        </tr>
+        <tr class="saving-row">
+          <td>Refund applied (40% discount)</td>
+          <td class="num">− $126.48</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total paid</td>
+          <td class="num">$299.04</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. Narita Tobu Hotel Airport -->
+  <div class="card strip-purple">
+    <div class="card-header">
+      <div>
+        <div class="hotel-name">Narita Tobu Hotel Airport</div>
+        <div class="dates">Dec 30 – Dec 31 &nbsp;·&nbsp; 1 night &nbsp;·&nbsp; Narita</div>
+      </div>
+      <span class="badge badge-purple">Booking.com</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="num">Amount (USD est.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Room rate (1 night)<br><span class="label-muted">Standard Triple, Non-Smoking — East Wing</span></td>
+          <td class="num">$81.00</td>
+        </tr>
+        <tr>
+          <td>10% VAT</td>
+          <td class="num">$8.00</td>
+        </tr>
+        <tr>
+          <td>10% Property service charge</td>
+          <td class="num">$9.00</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total &nbsp;<span style="font-weight:400;font-size:0.78rem;opacity:0.8;">(¥15,795 — paid at property)</span></td>
+          <td class="num">≈ $98.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<div class="section">
+  <h2>Summary</h2>
+  <div class="summary-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Hotel</th>
+          <th>Location</th>
+          <th>Nights</th>
+          <th class="num">Total Paid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Shinagawa Tobu Hotel<br><span class="label-muted">Dec 25 – 26</span></td>
+          <td>Tokyo</td>
+          <td>1</td>
+          <td class="num na-cell">See email</td>
+        </tr>
+        <tr>
+          <td>Ryokan Onishiya Suishoen<br><span class="label-muted">Dec 26 – 27 · Dinner &amp; Breakfast incl.</span></td>
+          <td>Kinosaki Onsen</td>
+          <td>1</td>
+          <td class="num na-cell">See email</td>
+        </tr>
+        <tr>
+          <td>Hotel Keihan Kyoto GRANDE<br><span class="label-muted">Dec 27 – 30 · 40% discount applied</span></td>
+          <td>Kyoto</td>
+          <td>3</td>
+          <td class="num">$299.04</td>
+        </tr>
+        <tr>
+          <td>Narita Tobu Hotel Airport<br><span class="label-muted">Dec 30 – 31 · Pay at property in JPY</span></td>
+          <td>Narita</td>
+          <td>1</td>
+          <td class="num">≈ $98.00</td>
+        </tr>
+        <tr class="summary-total-row">
+          <td colspan="3">Total (known amounts)</td>
+          <td class="num">≈ $397.04 + Agoda hotels</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">
+    <span>Note for joining guests:</span> All room rates above are for 1 room (2 adults + 2 children). If your group needs a separate room, contact each property directly to check availability and pricing for the same dates. USD amounts are estimates — Narita Tobu Hotel bills in JPY at the prevailing exchange rate on the day of stay.
+  </p>
+</div>
+
+</body>
+</html>
